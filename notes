@@ -1,37 +1,82 @@
                                                       python科学计算第二版
 CHAPTER 2
 Numpy
-	提供两种基本的对象：
-		ndarray,存储单一数据类型的多维数组，统称为数组
+    提供两种基本的对象：
+		    ndarray,存储单一数据类型的多维数组，统称为数组
         
         ufunc,一种能对数组进行数据处理的特殊函数
         
 ndarray对象
     创建ndarray对象
 		通过给array（）函数传递python的序列对象来创建函数，如果是多层的嵌套的序列，将创建多维数组
-			a = np.array([1,2,3,4])
-       		b = np.array([5,6,7,8])
-       		c = np.array([[1,2,3,4],[4,5,6,7],[7,8,9,10]])
+		    a = np.array([1,2,3,4])
+        b = np.array([5,6,7,8])
+       	c = np.array([[1,2,3,4],[4,5,6,7],[7,8,9,10]])
        
-       		b
-          		array[5,6,7,8]
-       		c
-          		array[[1,2,3,4],
-                	  [4,5,6,7],
-                      [7,8,9,10]]
+       	b
+          	array[5,6,7,8]
+       	c
+          	array[[1,2,3,4],
+                	[4,5,6,7],
+                  [7,8,9,10]]
        
 		数组的形状可以通过shape属性获得，它是一个描述数组各个轴的长度的元组：
-            a.shape  (4,）
-            b.shape  (4,)
-            c.shape  (3,4)
-                数组a的shape属性只有一个元素，因此是一维数组，轴的长度为4；数组c的shape属性有两个元素，因此它是二维数组，第0轴长度为3，第一轴长度为4
-       修改数组的shape属性可以保持数组元素个数不变的同时，改变数组各轴的长度
-            c.shape = 4,3
-            c
-                array([[1,2,3],
-                       [4,4,5],
-                       [6,7,7],
-                       [8,9,10]])
-		
-			
-		
+        a.shape  (4,）
+        b.shape  (4,)
+        c.shape  (3,4)
+            数组a的shape属性只有一个元素，因此是一维数组，轴的长度为4；数组c的shape属性有两个元素，因此它是二维数组，第0轴长度为3，第一轴长度为4
+    修改数组的shape属性可以保持数组元素个数不变的同时，改变数组各轴的长度
+        c.shape = 4,3
+        c
+            array([[1,2,3],
+                   [4,4,5],
+                   [6,7,7],
+                   [8,9,10]])
+			  从(3,4)改为（4,3）并不是对数组进行转置，而是改变轴的长度，数组元素在内存中的位置并没有改变
+      
+      设置某个轴的元素个数为-1时，将自动计算轴的长度
+          c.shape =2,-1
+          c
+              array([[1,2,3,4,4,5],
+                     [6,7,7,8,9,10]])
+      使用数组的reshape()方法，可以创建指定形状的新数组，而原数组的形状保持不变
+          d = a.reshape(2,2)
+          d
+              array[[1,2],
+                    [3,4]]
+          a
+              array[1,2,3,4]
+              
+      数组a和d共用数据存储空间，修改其中任意一个数组的元素，另一个数组的元素会同时修改
+          a[1] = 100
+          a
+              array[1,100,3,4]
+          d
+              array[[1,100],
+                    [3,4]]
+     
+元素类型
+    数组的元素类型可以通过dtype属性获得
+        c.dtype
+        创建数组是可指定元素类型，float是64位双精度浮点类型，complex是128位双精度复数类型
+            a_int32 = np.array([1,2,3],dtype=np.int32)
+            a_f=np.array([1,2,3],dtype=float)
+            a_c=np.array([1,2,3],dtype=complex)
+            np.int32是numpy的函数，float是python内置函数，numpy也有float16、float32函数
+        numpy中每种数值类型都有几种字符串表示方式，字符串和类型之间的对应关系都存储在typeDict字典中
+            [key for key,value in np.typeDict.items() if value is np.float64]
+        完整的类型列表可通过set(np.typeDict.values())    
+        通过数值类型也可以创建数值对象
+            a = np.int16(200)
+            通过数值类型创建的数值取值范围小于标准python数值取值范围
+            numpy的数值对象的运算速度比python内置类型的运算速度慢很多，numpy的数组运算速度比python的列表数组快很多
+        使用astype()方法可以对数组的元素类型进行转换
+            tl = np.array([1, 2, 3, 4], dtype=np.float) 
+            t2 = np.array([1, 2, 3, 4], dtype=np.complex) 
+            t3 = tl.astype(np.int32) 
+            t4 = t2.astype(np.complex64)
+            
+
+            
+            
+            
