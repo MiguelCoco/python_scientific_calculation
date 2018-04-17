@@ -76,7 +76,38 @@ ndarray对象
             t3 = tl.astype(np.int32) 
             t4 = t2.astype(np.complex64)
             
-
-            
-            
+自动生成数组
+    arange([start,] stop[, step,], dtype=None)
+        指定开始值、终止值、步长值创建等差数列的一位数组，注意不包含终止值
+    linspace(start, stop, num=50, endpoint=True, retstep=False, dtype=None)
+        指定开始值、终止值、元素个数创建等差数列的一维数组，endpoint指定是否包含终值，默认为True
+    logspace(start,stop,num=50,endpoint=True,base=10,dtype=None)
+        指定开始值、终止值、元素个数、endpoint指定是否包含终值、base指定基数，创建等比数列的一维数组
+        np.logspace(0,2,5)
+            起始值表示10的0次方，终值10的2次方，元素个数5，基数默认10
+        
+     empty(shape, dtype=float, order='C')
+        指定形状可以是整数或元组、指定类型、order指定以C类型或F类型存储多维数组
+        empty只分配数组使用的内存，而不初始化，速度最快
+     zeros(shape, dtype=float, order='C')
+        指定形状、类型、存储类型
+        zeros将数组元素初始化为0
+     ones(shape, dtype=None, order='C')
+        指定形状、类型、存储类型
+        ones将数组元素初始化为1
+     full(shape, fill_value, dtype=None, order='C')
+        指定形状、指定标量（数值）、类型、存储类型
+        将数组元素初始化为某一值
+     zeros_like()、ones_like()、empty_like()、full_like()等函数创建与参数数组的形状和类型相同的数组
+        因此zeros_ike(a)和zeros(a.shape，a.dtype)的效果相同  
+     frombuffer()、fromstring()、fromfile()等函数可以从字节序列(字符串)或文件创建数组       
+        fromstring(string, dtype=float, count=-1, sep='')
+            指定字符串、数据类型、count指定返回数组的长度
+        fromstring会对字符序列进行复制，frombuffer不复制，共享内存    
+    fromfunction(function, shape, **kwargs)
+        第一个参数是计算数组元素的函数，第二个参数指定数组的形状，必须是序列
+        创建九九乘法表二维数组：
+            def fun(i,k):
+                return (i+1)*(k+1)
+            np.fromfunction(fun,(9,9)）
             
