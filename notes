@@ -212,10 +212,27 @@ unfuc函数
     布尔运算
         因为python中的布尔运算使用and、or、not等，所以在Numpy中只能用函数，np.logical_and、np.logical_or、np.logical_not
        
-        
-        
-        
-        
+    自定义函数
+        frompyfunc(func，nin,nout)
+            func是计算单个元素的函数，nin是func的输入参数的个数，nout是func的返回值的个数
+            注意！新生成的函数ufunc返回的元素类型是object需要调用astype()方法转换类型
+    广播
+        使用ufunc函数时，要求数组的形状相同，如果不同会进行广播（broadcasting）处理
+            1、让所有输入数姐都向其中维数最多的数组看齐，shape属性中不足的部分都通过在前面加1补齐。
+            2、输出数组的shape属性是输入数组的shape属性的各个轴上的最大值。
+            3、如果输入数组的某个轴的长度为1或与输出数组的对应轴的长度相同，这个数组能够用来计算，否则出错。
+            4、当输入数组的某个轴的长度为1吋，沿着此轴运算时都用此轴上的第一组值
+        广播计算函数：
+            ogrid([start:stop,start:stop])
+            mgrid([start:stop,start:stop])
+            None可作为下标，将在None的位置创建一个长度为1的新轴
+                a[None,:] 等同于 a.reshape(1,-1)
+                a[:,None] 等同于 a.reshape(-1,1)
+            ix_（）可将两个一维数组转换成可广播的二维数组
+            
+ 多维数组的下标存取
+     下标对象，多维数组的下标应该是一个长度和数组的维数相同的元组，如果不是元组，将自动补充为元组，尽可能“显示”的使用元组作为下标
+     
         
         
         
