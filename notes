@@ -333,8 +333,39 @@ unfuc函数
 实用技巧（？？？？）
 
         
+CHAPTER 3
+SciPy-数值计算库
+    Scipy在numpy的基础上增加了众多的数学计算、科学计算以及工程计算中常用的模块，如线性代数、常微分方程数值求解、信号处理、图像处理、稀疏矩阵等
+    import scipy
+    scipy.__version__
+    '0.19.0'
+    
+    constants模块包含了众多物理常数：
+        from scipy import constants as C
+        print(C.c)#真空中的光速
+        print(C.h)#普朗克常数
+        在字典physical_constants中，以物理常量名为键，对应的值是一个含有三个元素的元组，分别为常数值、单位以及误差
+            C.physical_constants['electron mass']
+         除了物理常数之外，constants模块中还包括了许多单位信息，它们是1单位的量转换成标准单位时的数值
+             C.mile #1英里等于多少米
+             C.inch #1英寸等于多少米
+             C.gram #1克等于多少千克
+             C.pound #1磅等于多少千克
+      special模块是一个非常完整的函数库，其中包含了基本数学函数、特殊数学函数以及Numpy中出现的所有函数   
+          伽马（gamma）函数是概率统计学中经常出现的一个特殊函数，可以用special模块中的gamma()进行计算
+              import scipy.special as S
+              print(S.gamma(4))
+              print(S.gamma(0.5))
+              print(S.gamma(1+1j))#gamma函数支持复数
+          伽马函数是阶乘函数在实数和复数系上的扩展，它的增长速度非常快1000已经超过双精度浮点数的范围，因此结果无穷大，因此可以使用gammaln()计算gamma函数的对数值
+          
+          special模块中的某些函数并不是数学意义上的特殊函数，log1p(x)计算log(1+x)的值。由于浮点数的精度有限，无法很精确表示非常接近1的实数，例如无法用浮点数表示1+le-20的值，因此log(1+le-20)的值为0，而使用log1p(1+le-20)可以精确计算，值为1e-20
+    
+          ellipj(u,m)计算雅可比椭圆函数
+              它有两个参数u和m，返回4个值sn、cn、dn和φ（fai圆的直径）
         
-        
+        optimize模块提供了许多数值优化算法，如非线性方程组求解、数据拟合、函数最小值
+            fsolve()可以对非线性方程组进行求解，它的基本调用形式为fsolve（func,x0
         
         
         
