@@ -230,11 +230,29 @@ unfuc函数
                 a[:,None] 等同于 a.reshape(-1,1)
             ix_（）可将两个一维数组转换成可广播的二维数组
             
- 多维数组的下标存取
-     下标对象，多维数组的下标应该是一个长度和数组的维数相同的元组，如果不是元组，将自动补充为元组，尽可能“显示”的使用元组作为下标
-     
-        
-        
+多维数组的下标存取（？？？？）
+    下标对象，多维数组的下标应该是一个长度和数组的维数相同的元组，如果不是元组，将自动补充为元组，尽可能“显示”的使用元组作为下标
+      
+庞大的函数库
+	from numpy import random as nr
+	函数名				功能					函数名			功能
+	rand 			  0到1之间的随机数		  randn 		 标准正态态分布的随机数
+	randint 		  指定范围内的随机整数    normal 		  正态分布
+	uniform 		  均匀分布				 poisson 	   泊松分布
+	permutation 	  随机排列				 shuffle       随机打乱顺序
+	choice 			  随机抽取样本		   seed 		 设置随机数种子
+
+	np.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth=None, suppress=None, nanstr=None, infstr=None, formatter=None)
+ 	precision精度，默认为8，可选
+	
+	nr.rand(x,y)
+		rand()产生0到1之间的随机浮点数，参数x,y用于指定参数，未指定默认返回0到1之间的一个浮点数
+		randn()产生0到1之间的符合标准正态分布的随机数，参数同rand()
+		randint(start，stop，shape(x,y))产生指定范围内的随机浮点数，包含起始值，不包含终值，最后参数为形状
+    
+	nomial（）:正态分布，前两个参数分别为期望值和标准差。
+	imiform（）:均匀分布，前两个参数分别为区间的起始值和终值。
+	poisson（）:泊松分布，第一个参数指定A系数，它表示单位时间(或单位而积)内随机事件的平均发生率。由于泊松分布是一个离散分布，因此它输出的数组是一整数数组
         
         
         
