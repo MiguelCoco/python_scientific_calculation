@@ -351,21 +351,40 @@ SciPy-数值计算库
              C.inch #1英寸等于多少米
              C.gram #1克等于多少千克
              C.pound #1磅等于多少千克
-      special模块是一个非常完整的函数库，其中包含了基本数学函数、特殊数学函数以及Numpy中出现的所有函数   
-          伽马（gamma）函数是概率统计学中经常出现的一个特殊函数，可以用special模块中的gamma()进行计算
-              import scipy.special as S
-              print(S.gamma(4))
-              print(S.gamma(0.5))
-              print(S.gamma(1+1j))#gamma函数支持复数
-          伽马函数是阶乘函数在实数和复数系上的扩展，它的增长速度非常快1000已经超过双精度浮点数的范围，因此结果无穷大，因此可以使用gammaln()计算gamma函数的对数值
+    special模块是一个非常完整的函数库，其中包含了基本数学函数、特殊数学函数以及Numpy中出现的所有函数   
+        伽马（gamma）函数是概率统计学中经常出现的一个特殊函数，可以用special模块中的gamma()进行计算
+            import scipy.special as S
+            print(S.gamma(4))
+            print(S.gamma(0.5))
+            print(S.gamma(1+1j))#gamma函数支持复数
+        伽马函数是阶乘函数在实数和复数系上的扩展，它的增长速度非常快1000已经超过双精度浮点数的范围，因此结果无穷大，因此可以使用gammaln()计算gamma函数的对数值
           
-          special模块中的某些函数并不是数学意义上的特殊函数，log1p(x)计算log(1+x)的值。由于浮点数的精度有限，无法很精确表示非常接近1的实数，例如无法用浮点数表示1+le-20的值，因此log(1+le-20)的值为0，而使用log1p(1+le-20)可以精确计算，值为1e-20
+        special模块中的某些函数并不是数学意义上的特殊函数，log1p(x)计算log(1+x)的值。由于浮点数的精度有限，无法很精确表示非常接近1的实数，例如无法用浮点数表示1+le-20的值，因此log(1+le-20)的值为0，而使用log1p(1+le-20)可以精确计算，值为1e-20
     
-          ellipj(u,m)计算雅可比椭圆函数
-              它有两个参数u和m，返回4个值sn、cn、dn和φ（fai圆的直径）
+        ellipj(u,m)计算雅可比椭圆函数
+            它有两个参数u和m，返回4个值sn、cn、dn和φ（fai圆的直径）
         
-        optimize模块提供了许多数值优化算法，如非线性方程组求解、数据拟合、函数最小值
-            fsolve()可以对非线性方程组进行求解，它的基本调用形式为fsolve（func,x0
+    optimize模块提供了许多数值优化算法，如非线性方程组求解、数据拟合、函数最小值
+        最小二乘拟合
+            假设有一组实验数据（xi,yi），我们知道它们之间应该满足某函数关系yi=f(xi).通过这些已知信息，需要确定函数f()的一些参数。如果用P表示函数中需要确定的参数，则目标是找到一组P使得函数S的值最小，这种方法称为最小二乘拟合
+         leastsq()对数据进行最小二乘拟合计算
+            leastsq()只需将计算误差的函数和待确定参数的初始值传递给它即可
+                import numpy as np
+                from scipy import optimize
+                X = np.array([8.19,2.71,6.39,8.71,4.7,2.66,3.78])
+                Y = np.array([7.01,2.78,6.47,6.71,4.1,4.23,4.05])
+                
+                def residuals(p):
+                    "计算以P为参数的直线和原始数据之间的误差"
+                    k,b=p
+                    return Y-(K*X+b)
+                 
+                 #leastsq使得residuals()的输出数组的平方和最小，参数的初始值为[1,0]
+                 r=optimieze.leastsq(residuals,[1,0])
+                 k,b=r[0]
+                 print('k = ',k,'b = ',b)
+                 
+            
         
         
         
