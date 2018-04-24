@@ -384,9 +384,108 @@ SciPy-数值计算库
                  k,b=r[0]
                  print('k = ',k,'b = ',b)
                  
+        计算函数局域最小值
+	  	      optimize库还提供了许多求函数最小值的算法：Nelder-Mead、Powell、CG、BFGS、Newton-CG、L-BFGS-B
+        
+        计算全域最小值
+            optimize库还提供了几种能进行全局优化的算法
+        
+CHAPTER 5
+Pandas-方便的数据分析库
+    import pandas as pd
+    pd.__version__
+    '0.20.3'
+python中的数据对象
+    Series和DataFrame是最常用的两个对象
+    Series是pandas中最基本的对象，可以用numpy的数组处理函数直接对series对象进行处理，支持位置作为下标存取，也支持索引标签作为下标索引
+        index：从ndarray数组继承的index索引对象，保存标签信息
+        
+        values:保存元素值的ndarray数组，Numpy的函数都对此数组进行处理
+    
+        创建一个Series对象
+            import pandas as pd
+            s=pd.Series([1,2,3,4,5],index=['a','b','c','d','e'])
+            s.index
+            s.values
+         Series对象的下标运算同时支持位置和索引两种形式
+            s[2]
+            s['c']
+         Series对象还支持位置切片和标签切片，不同于位置切片，标签切片同时包括起始标签和结束标签   
+            s[1:5]
+            s['a':'c']
+        Series对象可以使用位置/标签列表或位置/标签数组存取元素
+            s[[1,2,3]]
+            s[['a','c','d']
+        Series对象同时具有数组和字典的功能，Series.iteritems()
+            list(s.iteritems())
+        对两个Series对象进行操作符运算时，pandas会按照标签对齐元素，也就是说运算操作符会对标签相同的两个元素进行计算，当标签不存在时，默认填充nan
+        
+    
+    DataFrame对象
+        DataFrame对象（数据表）是pandas中最常用的数据对象
+        DataFrame的各个组成元素
+            read_csv()从文件读取数据，index_col设置索引，parse_dates日期转换
+                
+            shape属性可以获得形状（行数和列数）
+                
+            index属性保存行索引，columns属性保存列索引，列索引是一个index对象，索引对象的名称可以通过name属性获得，行索引是一个表示多级索引的MultiIndex对象，每级的索引名可以通过names属性获得
+                
+            DataFrame对象有两个轴，它的第0轴为纵轴，第1轴为为横轴,index为纵轴，columns为纵轴
+                
+            []运算符可以通过列索引标签获取指定的列，当下标是单个标签时，返回Series,下标是列表时，返回新的DataFrame对象
+                
+            .loc[]可通过行索引标签获取指定的行，当结果为一行时得到的是Series对象，结果为多行时得到的是DataFrame对象
+                
+            values属性将DataFrame对象转换成数组，当列类型不统一时，数组是object的数组
+        
+        数据转换为DataFrame属性
+            DataFrame()可以将多种格式的数据转换成DataFrame对象，它的三个参数data、index和columns分别为数据、行索引、列索引
+            data参数可以是：
+                二维数组或能转换成二维数组的嵌套列表
+                字典
+                
+            将一个形状为(4, 2)的二维数组转换成DataFrame对象，通过index和columns参数指定行和列的索引。
+            将字典转换为DataFrame对象，其列索引由字典的键决定，行索引由index参数指定。
+            将结构数组转换为DataFrame对象，其列索引由结构数组的字段名决定，行索引默认为从0幵始的整数序列    
             
-        
-        
-        
+            from_开头的类方法，将特定格式的数据转换成DataFrame对象，from_dict（）将字典转换为DataFrame对象，orient参数可以指定字典键对应的方向，默认为“columns”
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         
