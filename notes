@@ -452,8 +452,10 @@ python中的数据对象
                 from_dict（）将字典转换为DataFrame对象，orient参数可以指定字典键对应的方向，默认为“columns”
                 from_items()将“(键，值)”序列转换为DataFrame对象，其中“值”是表示一维数据的列表、数组或Series对象。
                     当其orient参数为"index"时，需要通过columns指定列索引
-
-
+        
+        Index对象
+            index对象保存索引标签数据，它可以快速找到标签对应的整数下标，
+      
 
 
 
