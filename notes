@@ -454,21 +454,108 @@ python中的数据对象
                     当其orient参数为"index"时，需要通过columns指定列索引
         
         Index对象
-            index对象保存索引标签数据，它可以快速找到标签对应的整数下标，
+            index对象保存索引标签数据，它可以快速找到标签对应的整数下标，values属性可以获得保存标签的数组
+            index对象可当作一维数组，通过与numpy数组相同的下标操作可以得到一个新的index对象，但是index对象是只读的，一旦创建便无法修改其中的元素
+       
+        MultiIndex对象
+          MultiIndex表示多级索引，通过[]获取其中的单个元素，调用get_loc()和get_indexer()获取单个标签和多个标签对应的下标
+
       
+        常用的函数参数
+            参数名             常用值                     说明
+            axis               0、1                    运算对应的轴
+            level           整数或索引的级别名          指定运算对应的级別
+            fill_value         数值                    指定运箅中出现的NaN的替代填充值
+            skipna            布尔值                   运算是否跳过NaN
+            index              序列                    指定行索引
+            columns            序列                    指定列索引
+            numeric_only      布尔值                   是否只针对数值进行运箅
+            func             可调用对象                指定回调函数
+            inplace          布尔值                    是否原地更新，若为否，则返回新对象
+            encoding           ntf8                   指定文本编码
+            dropna            布尔值                  是否删除包含NaN的行
+        DataFrame内部结构
+            DataFrame的index属性是multiindex对象，multiindex对象的_engine属性是objectengine对象，objectengine的mapping属性是一个pyobjecthashtable对象，它使标签对象整数的下标
+            DataFrame的columns属性是index对象
+            DataFrame的values属性是ndarray对象
+            DataFrame的_data属性是blockmanager对象，blockmanager的blocks属性是floatblock对象、datatimeblock对象和objectblock对象，他们的values属性是ndarray对象
+            DataFrame的shape属性是形状对象
+            DataFrame的blocks属性是DataFrame对象
+        
+    下标存取（后续学习。。。）
+        Series和DataFmme提供了丰富的下标存取方法，除了直接使用[]运算符之外，还可以使用.loc[]、.iloc[]、.at[]、.iat[]和.ix[]等存取器存取其中的元素
+        
+        []同其他
+        .loc[] 通过单个标签值、标签列表、标签数姐、布尔数组、标签切片等选择指定行与列上的数据
+        .iloc[]使用整数下标
+        .query()通过表达式筛选
+    
+    文件的输入与输出
+        函数名                       说明
+        read_csv()                从CSV格式的文本文件读取数据
+        read_excel()              从Excel文件读入数据
+        HDFStore()                使用HDF5文件读写数据
+        read_sql()                从SQL数据库的査询结果载入数据
+        read_pickle()             读入Pickle序列化之后的数据
 
+        read_csv()
+            sep参数指定数据的分隔符号，可以使正则表达式，默认值为逗号。有时CSV文件为了便于阅读，在逗号之后添加了一些空格以对齐每列的数据。
+                如果希望忽略这些空格，可以将skipinitialspace参数设置为True。
+            如果数据使用空格或制表符分隔，可以不设置sep参数，而将delim_whitespace参数设置为True。
+            默认情况下第一行文本被作为列索引标签，如果数据文件中没有保存列名的行，可以设置header参数为0。
+            如果数据文件之前包含一些说明行，可以使用skipows参数指定数据开始的行号。
+            na_values、tnie_values 和false_values 等参数分别指足NaN、True 和False 对应的字符串列表。
+            如果希望从字符串读入数据，可以使用io.BytesIO(string)将字符串包装成输入流。
+            如果希望将字符串转换为时间，可以使用parse_dates指定转换为时间的列。
+            如果数据中包含中文，可以使encoding参数指定文件的编码，例如utf-8、gbk等。
+                指定编码之后得到的字符串列为Unicode字符串。
+            可以使用usecols参数指定需要读入的列。
+            当文件很大时，可以用chunksize参数指定一次读入的行数。当使用chunksize时，read_csv() 返回一个迭代器。
+            当文件名包含中文时，需要使用Unicode字符串指定文件名
 
+        读写数据库
+            用to_sql()可以将数据写入SQL数据库，它的第一个参数是数据库的表名，第二个参数是表示与数据库连接的engine对象，engine在sqlalchemy库中定义
+            from sqlalchemy import create_engine #从sqlalchemy中载入create_engine()
+            engine = create_engine('sqlite:///data/aqi.db') #调用sqlite打开数据库文件
+            try：
+              engine.execute('DROP TABLE aqi)
+            except:
+              pass
+            
+            str_cols = ['position','city','level']
 
+            for df in read_aqi_files('data/aqi/*.csv')
+                for col in str_cols:
+                    df[col] = df[col].str.decode('utf-8')#解码为utf8
+                df.to_sql('aqi',engine,if_exists='append',index=False)#调用to_sql（）写入数据库，if_exist（）表示当表存在时，将新数据添加到表中
+                
+             df_aqi = pd.read_sql('aqi',engine)#调用read_sql（）从数据库中读取aqi的表
+         
+         使用pickle序列化
+            to_pickle()和read_pickle()对DataFrame对象进行序列化和反序列化
 
-
-
-
-
-
-
-
-
-
+    数值运算函数
+        numpy中的都可以用
+        
+        字符串处理
+            Series对象提供了大量的字符串处理方法，pandas使用一个类似名称空间变量的对象str来包装这些字符串相关方法
+                str.upper()将序列中的所有字母都转换为大写
+                str.decode()解码
+                str.encode()编码
+                str[:3]支持切片
+                字符串序列与字符串一样，支持加法和乘法运算
+                str.cat()连接两个字符串对应的元素
+                调用astype()方法可以对Series对象中的所有元素进行类型转换
+                str.split()将每个字符分隔
+                str.join()以符号连接每个列表中的元素
+                
+    时间序列
+        pandas提供了时间点、时间段和时间间隔有关的类型，以及元素为这些类型的对象，并提供了许多时间序列相关的函数
+        Timestamp对象，从datetime类继承，表示时间轴上的一个时刻，提供了方便的时区转换功能
+            Timestamp.now()获取当前时间，他是不包含时区信息的本地时间
+            Timestamp.now().tz_localize()可以得到指定时区的Timestamp对象
+            Timestamp.now().tz_localize().tz_convert()转换时区（只能转换带时区信息的对象）
+            
 
 
 
