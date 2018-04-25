@@ -555,7 +555,22 @@ python中的数据对象
             Timestamp.now()获取当前时间，他是不包含时区信息的本地时间
             Timestamp.now().tz_localize()可以得到指定时区的Timestamp对象
             Timestamp.now().tz_localize().tz_convert()转换时区（只能转换带时区信息的对象）
-            
+        pytz模块的common_timezones()可以获得常用的表示时区的字符串
+            import pytz
+            pytz.common_timezones()
+        Period对象表示一个标准的时间段，如某年、某月、某日、某小时等，时间段的长短有freq决定
+            pd.Period.now(freq='D')#当前时间的日时间段
+            pd.Period.now(freq='H')#当前时间的小时时间段
+                freq属性可选值可通过以下代码获得
+                    from pandas.tseries import frequencies
+                    frequencies._period_code_map.keys()
+            周期为年度和星期的时间段，可以通过freq指定开始的时间，时间段的起终点时间可通过start_time和end_time属性获得
+                pd.Period.now(freq='W')#当前时间以星期日开始的时间段
+                pd.Period.now(freq='W-MON')#当前时间以星期一开始的时间段
+            调用Timestamp对象的to_period()方法可以把时间点转换为包含该时间点的时间段，不包含时区信息
+                Timestamp.now().to_period('H')
+                
+                  
 
 
 
