@@ -569,7 +569,17 @@ python中的数据对象
                 pd.Period.now(freq='W-MON')#当前时间以星期一开始的时间段
             调用Timestamp对象的to_period()方法可以把时间点转换为包含该时间点的时间段，不包含时区信息
                 Timestamp.now().to_period('H')
-                
+            Timestamp和Period对象可以通过其属性获得年、月、日等信息
+                now().year#获取当前时间的年份
+                now().month#获取当前时间的月份
+                now().hour#获取当前时间的小时
+            Timedelta时间间隔对象
+                将两个时间点相减可以得到表示时间间隔的Timedelta对象
+                时间点和时间间隔可以进行加减运算
+                Timedelta对象的days、seconds、microseconds和nanoseconds等属性分别获得它包含的天数、秒数、微秒数和纳秒数，注意单位统一再计算
+                也可以通过关键字参数直接指定时间间隔的天数、小时数、分钟数和秒数
+                    pd.Timedelta(days=1,hours=2,seconds=10.5)
+                    
                   
 
 
