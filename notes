@@ -551,28 +551,33 @@ python中的数据对象
                 
     时间序列
         pandas提供了时间点、时间段和时间间隔有关的类型，以及元素为这些类型的对象，并提供了许多时间序列相关的函数
-        Timestamp对象，从datetime类继承，表示时间轴上的一个时刻，提供了方便的时区转换功能
-            Timestamp.now()获取当前时间，他是不包含时区信息的本地时间
-            Timestamp.now().tz_localize()可以得到指定时区的Timestamp对象
-            Timestamp.now().tz_localize().tz_convert()转换时区（只能转换带时区信息的对象）
-        pytz模块的common_timezones()可以获得常用的表示时区的字符串
-            import pytz
-            pytz.common_timezones()
-        Period对象表示一个标准的时间段，如某年、某月、某日、某小时等，时间段的长短有freq决定
-            pd.Period.now(freq='D')#当前时间的日时间段
-            pd.Period.now(freq='H')#当前时间的小时时间段
-                freq属性可选值可通过以下代码获得
-                    from pandas.tseries import frequencies
-                    frequencies._period_code_map.keys()
-            周期为年度和星期的时间段，可以通过freq指定开始的时间，时间段的起终点时间可通过start_time和end_time属性获得
-                pd.Period.now(freq='W')#当前时间以星期日开始的时间段
-                pd.Period.now(freq='W-MON')#当前时间以星期一开始的时间段
-            调用Timestamp对象的to_period()方法可以把时间点转换为包含该时间点的时间段，不包含时区信息
-                Timestamp.now().to_period('H')
-            Timestamp和Period对象可以通过其属性获得年、月、日等信息
-                now().year#获取当前时间的年份
-                now().month#获取当前时间的月份
-                now().hour#获取当前时间的小时
+        
+        Timestamp时间点、Period时间段、Timedelta时间间隔
+            Timestamp对象，从datetime类继承，表示时间轴上的一个时刻，提供了方便的时区转换功能
+                Timestamp.now()获取当前时间，他是不包含时区信息的本地时间
+                Timestamp.now().tz_localize()可以得到指定时区的Timestamp对象
+                Timestamp.now().tz_localize().tz_convert()转换时区（只能转换带时区信息的对象）
+
+                pytz模块的common_timezones()可以获得常用的表示时区的字符串
+                    import pytz
+                    pytz.common_timezones()
+
+            Period对象表示一个标准的时间段，如某年、某月、某日、某小时等，时间段的长短有freq决定
+                pd.Period.now(freq='D')#当前时间的日时间段
+                pd.Period.now(freq='H')#当前时间的小时时间段
+                    freq属性可选值可通过以下代码获得
+                        from pandas.tseries import frequencies
+                        frequencies._period_code_map.keys()
+                周期为年度和星期的时间段，可以通过freq指定开始的时间，时间段的起终点时间可通过start_time和end_time属性获得
+                    pd.Period.now(freq='W')#当前时间以星期日开始的时间段
+                    pd.Period.now(freq='W-MON')#当前时间以星期一开始的时间段
+                调用Timestamp对象的to_period()方法可以把时间点转换为包含该时间点的时间段，不包含时区信息
+                    Timestamp.now().to_period('H')
+                Timestamp和Period对象可以通过其属性获得年、月、日等信息
+                    now().year#获取当前时间的年份
+                    now().month#获取当前时间的月份
+                    now().hour#获取当前时间的小时
+
             Timedelta时间间隔对象
                 将两个时间点相减可以得到表示时间间隔的Timedelta对象
                 时间点和时间间隔可以进行加减运算
@@ -580,7 +585,21 @@ python中的数据对象
                 也可以通过关键字参数直接指定时间间隔的天数、小时数、分钟数和秒数
                     pd.Timedelta(days=1,hours=2,seconds=10.5)
                     
-                  
+        时间序列
+            random_timestamps()中的函数date_range()可以创建以start为起点、以end为终点、周期为freq的DatetimeIndex对象
+            def random_timestamps(start,end,freq,count):
+                index=pd.date_range(start,end,freq=freq)
+                locations=np.random.choice(np.arange(len(index)),size=count,replace=False)
+                locations.sort()
+                return index[locations]
+            
+            np.random.seed(42)
+            ts_index = random_timestamps('2018-01-01','2018-10-01',freq='Min',count=5)
+            pd_index = ts_index.to_period('M')
+            td_index = pd.TimedeltaIndex(np.diff(ts_index))
+            
+            print(ts_index,'\n',pd_index,'\n',td_index,'\n')
+            
 
 
 
