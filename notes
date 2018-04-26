@@ -585,23 +585,38 @@ python中的数据对象
                 也可以通过关键字参数直接指定时间间隔的天数、小时数、分钟数和秒数
                     pd.Timedelta(days=1,hours=2,seconds=10.5)
                     
-        时间序列
-            random_timestamps()中的函数date_range()可以创建以start为起点、以end为终点、周期为freq的DatetimeIndex对象
-            def random_timestamps(start,end,freq,count):
-                index=pd.date_range(start,end,freq=freq)
-                locations=np.random.choice(np.arange(len(index)),size=count,replace=False)
-                locations.sort()
-                return index[locations]
-            
-            np.random.seed(42)
-            ts_index = random_timestamps('2018-01-01','2018-10-01',freq='Min',count=5)
-            pd_index = ts_index.to_period('M')
-            td_index = pd.TimedeltaIndex(np.diff(ts_index))
-            
-            print(ts_index,'\n',pd_index,'\n',td_index,'\n')
-            
+        时间序列(Series对象的索引为DatetimeIndex对象，这种Series对象被称为时间序列）
+            pandas的函数date_range()可以创建以start为起点、以end为终点、周期为freq的DatetimeIndex对象
+                def random_timestamps(start,end,freq,count):
+                    index=pd.date_range(start,end,freq=freq)
+                    locations=np.random.choice(np.arange(len(index)),size=count,replace=False)
+                    locations.sort()
+                    return index[locations]
 
+                np.random.seed(42)
+                ts_index = random_timestamps('2018-01-01','2018-10-01',freq='Min',count=5)
+                pd_index = ts_index.to_period('M')
+                td_index = pd.TimedeltaIndex(np.diff(ts_index))
 
+                print(ts_index,'\n',pd_index,'\n',td_index,'\n')
+            
+            查看索引对象的类型属性用属性dtype
+            DatetimeIndex、PeriodIndex和TimedeltaIndex对象有许多与时间相关的属性，weekday、month、seconds等
+            DatetimeIndex.shift(n,freq)可以移动时间点，将当前时间移动n个freq时间单位，对于天和小时，结果相当于与指定的时间间隔相加，对于月份等不精确时间单位，则移动一个单位相当于移动到月底或月初
+            DatetimeIndex.normalize()将时刻改为当天的凌晨零点，可以理解为按日期取整
+            如果希望对任意时间周期取整，可以先通过to_period()将其转换为PeriodIndex对象，然后调用to_timestamp()方法转回DatetimeIndex对象，参数how决定时间段的起点还是终点转换为时间点，默认值为‘start’
+            时间序列提供一些专门用于处理时间的方法:
+                between_time()返回所有位于指定时间范围内的数据
+                    a.between_time('8:00','9:00')
+                tshift()则将索引移动指定的时间,PeriodIndex和TimedeltaIndex为索引的序列也可以使用tshifu()对索引进行移动
+                    a.tshifu(1,freq='D')
+            时间信息除了作为索引之外，还可以作为Series和DataFrame的列    
+                ts_data = pd.Series(ts_index)
+                ts_data.dtype#查看类型
+                
+                
+            
+            
 
 
 
