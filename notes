@@ -403,8 +403,8 @@ matplotlib-绘制精美的图表
         x = np.linspace(0, 10, 1000) #等差数列赋值给变量x
         y = np.sin(x) #变量x的正弦函数值赋值给变量y
         z = np.cos(x**2)#变量x的平方值的余弦函数赋值给变量z
-        plt.figure(figsize=(8,4)) #调用figure()函数创建Figure对象
-        plt.plot(x,y,label="$sin(x)$",color="red",linewidth=2)
+        plt.figure(figsize=(8,4)) #调用figure()函数创建Figure对象，figsize参数制定Figure对象的宽度和高度单位为英寸，dpi设置分辨率
+        plt.plot(x,y,label="$sin(x)$",color="red",linewidth=2) #
         plt.plot(x,z,"b--",label="$cos(x^2)$") 
         plt.xlabel("Time(s)") 
         plt.ylabel("Volt")  
