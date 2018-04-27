@@ -614,13 +614,58 @@ python中的数据对象
                 ts_data = pd.Series(ts_index)
                 ts_data.dtype#查看类型
                 
+        与NaN相关的函数
+            pandas使用NaN表示缺失数据，整数列无法使用NaN，因此如果整数类型的列出现缺失数据，则会被自动转换为浮点数类型的列
+            将布尔类型的DataFrame对象传递给整数类型的DataFrame对象的where()方法，该方法将False对象的元素设置为NaN
+            where()方法，将False对象的元素设置为NaN
+            dtypes属性查看数据类型
+            isnull()和notnull()用于判断元素值是否为NaN，它们返回全是布尔值的DataFrame对象，notnull()少创建一个临时对象，运算效率更高一些
+            pd.DataFrame.count(self, axis=0, level=None, numeric_only=False)返回每行或每列的非NaN元素的个数
+            pd.DataFrame.dropna(self, axis=0, how='any', thresh=None, subset=None, inplace=False)
+                thresh参数指定NaN个数的阈值，删除大于等于改阈值的行，thresh()参数只对行产生作用
+            当行数据按照某种物理顺序排列时，可使用NaN前后的数据对齐进行填充
+                ffill()使用之前数据填充
+                bfill()使用之后数据填充
+                interpolate()使用前后数据进行插值填充
+                    interpolate()默认使用等距线性插值，method参数指定插值算法
+                可以使用字典对不同的列使用不同的值填充
+                    fillna({'a':0,'b':1})
+                各种聚合方法的skipna参数默认为True，计算时忽略NaN元素，如果需要忽略包含NaN的整行先调用dropna(),如果将skipna参数设置为False，有NaN值的行或列将返回NaN
+                combine_first(other)使用other填充NaN元素    
+        
+        改变DataFrame形状
+            函数名                 功能                   函数名                       功能
+            concat              拼接多块数据              drop                         删除行或列
+            set_index           设置索引                  reset_index                 将行索引转换为列
+            stack               将列索引转换为行索引       uastack                     将行索引转换为列索引
+            reorder_levels      设置索引级别的顺序         swaplevel                   交换索引中两个级别的顺序  
+            sort_index           对索引排序                pivot                       创建透视表
+            melt                透视表的逆变换             assign                     返回添加新列之后的数据
+            
+            添加删除列和行
+                添加新列：DataFrame[colname]=values
+                         DataFrame[colname]=DataFrame.eval('表达式')
+                assign()方法添加由关键字参数指定的列，它返回一个新的DataFrame对象，原数据内容保持不变
+                append()方法用于添加行，返回一个全新的对象，循环中使用append()添加数据会极大降低程序的运算速度，可以使用一个列表缓存所有分块的数据，然后用concat()将这些数据沿指定轴拼接到一起
+                drop()删除指定的行或列
+            行索引与列的转换
+                reset_index()可以将索引转换为列，通过level参数可以指定被转换为列的级别，如果删除索引可以设置drop参数为True
+                set_index()可以将列转换为行索引,如果append()参数为False，则删除当前的行索引，若为True则当前的索引添加新的级别
+            行列索引相互转换
+                stack()方法把指定级别的列索引转换为行索引
+                unstack()方法将指定级别的行索引指定为列索引
+            交换索引等级
+                reorder_levels()设置索引级别的顺序和swaplevel()交换指定轴的索引级别
+            透视表
+                pd.DataFrame.pivot(self, index=None, columns=None, values=None)
+                    将三列数据分别指定为行索引、列索引和值列，返回二维表格
+                melt()是pivot()的逆转换，不能对行索引进行操作，先调用reset_index()将行索引转换为列，然后指定id_vars参数
+         
+        分组运算
+         
                 
-            
-            
-
-
-
-
+                
+        
 
 
 
