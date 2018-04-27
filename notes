@@ -389,7 +389,51 @@ SciPy-数值计算库
         
         计算全域最小值
             optimize库还提供了几种能进行全局优化的算法
+CHAPTER 4
+matplotlib-绘制精美的图表
+    matplotlib采用面向对象的技术来实现，因此组成图表的各个元素都是对象，在编写较大的应用程序时通过面向对象的方式使用matplotlib将更加有效。
+        但是使用这种而向对象的调用接口进行绘图比较烦琐，因此matplotlib还提供了快速绘图的pyplot模块
+    jupyter notebook调用matplotlib:
+        %matplotlib inline
+    在多个单元格操纵统一图表：
+        %config InlineBackend.close_figures = False
+    使用pyplot模块绘图
+        import matplotlib.pyplot as plt #载入快速绘图模块pyplot，重命名plt
+        import numpy as np #载入numpy模块
+        x = np.linspace(0, 10, 1000) #等差数列赋值给变量x
+        y = np.sin(x) #变量x的正弦函数值赋值给变量y
+        z = np.cos(x**2)#变量x的平方值的余弦函数赋值给变量z
+        plt.figure(figsize=(8,4)) #调用figure()函数创建Figure对象
+        plt.plot(x,y,label="$sin(x)$",color="red",linewidth=2)
+        plt.plot(x,z,"b--",label="$cos(x^2)$") 
+        plt.xlabel("Time(s)") 
+        plt.ylabel("Volt")  
+        plt.title("PyPlot First Example") 
+        plt.ylim(-1.2,1.2) 
+        plt.legend()
+        plt.show()
+   
+
+
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 CHAPTER 5
 Pandas-方便的数据分析库
     import pandas as pd
@@ -662,12 +706,32 @@ python中的数据对象
                 melt()是pivot()的逆转换，不能对行索引进行操作，先调用reset_index()将行索引转换为列，然后指定id_vars参数
          
         分组运算
-         
-                
-                
-        
-
-
+            分组运算是使用特定的条件将数据分为多个分组，然后对每个分组进行运算，最后再讲结果整合起来。
+            groupby()方法实现分组
+                groupby（）的axis参数默认为0,表示对源数据的行进行分组。源数据中的每行与分组数据中的每个兀素对应，分组数据中的每个唯一值对应一个分组。由于图中的分组数据中有两个唯一值，因此得到两个分组
+                当分组用的数据在源数据中时，可以通过直接指定列名指定分组数据
+                    可以用过列表传递多组分组数据给groupby()
+                当分组数据不在数据源中时，可以直接传递分组数据
+                当分组数据可以通过源数据的行索引计算时，可以将计算函数传递给groupby()
+            GroupBy对象
+                使用len()可以获取分组数
+                GroupBy对象支持迭代口，它与字典的iteritems()方法类似
+                get_group()方法可以获得与指定的分组键对应的数据：
+                    a.get_group('A')
+                对GroupBy的下标操作将获得一个只包含源数据中指定列的新GroupBy对象
+            分组-运算-合并
+                通过GroupBy对象提供的agg()、transform()、filter()以及apply()等方法可以实现各种分组运算
+                agg()聚合
+                    agg()对每个分组中的数据进行聚合运算，指一组由N个数值组成的数据转换为单个数值的运算，如求和、平均值、中间值、随机取值等
+                transform()转换
+                    transform()对每个分组中的数据进行转换运算
+                filter()过滤
+                    filter()对每个分组进行条件判断
+                apply()
+                    apply()将表示每个分组的DataFrame对象传递给回调函数并收集其返回值，并将这些返回值按照某种规则合并
+                    
+        数据处理和可视化实例
+            
 
 
 
