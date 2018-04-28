@@ -414,6 +414,7 @@ matplotlib-绘制精美的图表
         plt.show()#显示绘图窗口
         plt.savefig()#将当前的Figure对象保存为图像文件，文件类型由文件扩展名决定，分辨率由dpi决定
         
+    面向对象方式绘图
         
    
 
