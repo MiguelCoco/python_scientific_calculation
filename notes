@@ -404,14 +404,17 @@ matplotlib-绘制精美的图表
         y = np.sin(x) #变量x的正弦函数值赋值给变量y
         z = np.cos(x**2)#变量x的平方值的余弦函数赋值给变量z
         plt.figure(figsize=(8,4)) #调用figure()函数创建Figure对象，figsize参数制定Figure对象的宽度和高度单位为英寸，dpi设置分辨率
-        plt.plot(x,y,label="$sin(x)$",color="red",linewidth=2) #
-        plt.plot(x,z,"b--",label="$cos(x^2)$") 
-        plt.xlabel("Time(s)") 
-        plt.ylabel("Volt")  
-        plt.title("PyPlot First Example") 
-        plt.ylim(-1.2,1.2) 
-        plt.legend()
-        plt.show()
+        plt.plot(x,y,label="$sin(x)$",color="red",linewidth=2) #plot绘图,前两个参数指定X、Y轴，label指定标签，标签字符串前后有"$"符会使用LaTeX引擎将标签显示为数学公式，color指定曲线颜色，linewidth指定曲线宽度，缩写lw
+        plt.plot(x,z,"b--",label="$cos(x^2)$") #‘b--’表示蓝色，曲线
+        plt.xlabel("Time(s)") #设置X轴标题文字
+        plt.ylabel("Volt")  #设置Y轴标题文字
+        plt.title("PyPlot First Example") #设置子图的标题
+        plt.ylim(-1.2,1.2) #设置Y轴的显示范围
+        plt.legend()#显示图示
+        plt.show()#显示绘图窗口
+        plt.savefig()#将当前的Figure对象保存为图像文件，文件类型由文件扩展名决定，分辨率由dpi决定
+        
+        
    
 
 
